@@ -11,6 +11,8 @@ import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class StaffServiceImpl implements StaffService {
@@ -26,5 +28,11 @@ public class StaffServiceImpl implements StaffService {
         if (saveMember == null) {
             throw new DataPersistException("Staff member Not Saved!");
         }
+    }
+
+    @Override
+    public List<StaffDTO> getAllStaff() {
+        List<StaffEntity>allStaff=staffDao.findAll();
+        return staffMapping.asStaffDTOList(allStaff);
     }
 }
