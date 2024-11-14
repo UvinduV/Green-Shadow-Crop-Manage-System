@@ -14,4 +14,7 @@ public class Mapping {
     public StaffEntity toStaffEntity(StaffDTO staffDTO){
         return modelMapper.map(staffDTO, StaffEntity.class);
     }
+    public StaffDTO toStaffDTO(StaffEntity staffEntity){
+        return modelMapper.map(staffEntity, StaffDTO.class);
+    }
 }

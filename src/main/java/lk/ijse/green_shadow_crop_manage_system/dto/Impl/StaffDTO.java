@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class StaffDTO implements StaffStatus {
-    private String id;
+    private String staffId;
     private String firstName;
     private String lastName;
     private String designation;
