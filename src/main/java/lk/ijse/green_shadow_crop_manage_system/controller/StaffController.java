@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("api/v1/staff")
 public class StaffController {
     @Autowired
-    StaffService staffService;
+    private StaffService staffService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,7 +33,6 @@ public class StaffController {
     public List<StaffDTO> getAllStaff(){
         return staffService.getAllStaff();
     }
-
 
 
 

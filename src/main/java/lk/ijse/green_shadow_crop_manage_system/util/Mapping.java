@@ -1,7 +1,9 @@
 package lk.ijse.green_shadow_crop_manage_system.util;
 
+import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.CropEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import org.modelmapper.ModelMapper;
@@ -35,4 +37,16 @@ public class Mapping {
     public List<FieldDTO> asFieldDTOList(List<FieldEntity> fieldEntities) {
         return modelMapper.map(fieldEntities, new TypeToken<List<FieldDTO>>() {}.getType());
     }
+
+    //Crop
+    public CropEntity toCropEntity(CropDTO cropDTO){
+        return modelMapper.map(cropDTO, CropEntity.class);
+    }
+    public CropDTO toCropDTO(CropEntity cropEntity){
+        return modelMapper.map(cropEntity, CropDTO.class);
+    }
+    public List<CropDTO> asCropDTOList(List<CropEntity> cropEntities) {
+        return modelMapper.map(cropEntities, new TypeToken<List<CropDTO>>() {}.getType());
+    }
+
 }

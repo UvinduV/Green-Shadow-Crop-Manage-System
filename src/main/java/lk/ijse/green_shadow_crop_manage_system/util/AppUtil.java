@@ -10,6 +10,12 @@ public class AppUtil {
     public static String generateFieldId(){
         return "FIELD-"+ UUID.randomUUID();
     }
+    public static String generateCropId(){
+        return "CROP-"+ UUID.randomUUID();
+    }
+    public static String fieldImageToBase64(byte[] fieldImage){
+        return Base64.getEncoder().encodeToString(fieldImage);
+    }
     public static String cropImageToBase64(byte[] fieldImage){
         return Base64.getEncoder().encodeToString(fieldImage);
     }
