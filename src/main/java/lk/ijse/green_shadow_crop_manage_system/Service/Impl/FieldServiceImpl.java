@@ -11,6 +11,7 @@ import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,11 @@ public class FieldServiceImpl implements FieldService {
         }else {
             throw new FieldNotFoundException("This Field-" + fieldCode + " is not found");
         }
+    }
+
+    @Override
+    public List<FieldDTO> getAllField() {
+        return fieldMapping.asFieldDTOList(fieldDao.findAll());
     }
 
 }
