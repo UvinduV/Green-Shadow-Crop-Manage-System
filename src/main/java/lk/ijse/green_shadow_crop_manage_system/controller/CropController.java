@@ -2,17 +2,13 @@ package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.CropService;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
-import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -26,7 +22,7 @@ public class CropController {
                                          @RequestPart ("cropImage") MultipartFile cropImage,
                                          @RequestPart ("category") String category,
                                          @RequestPart ("season") String season,
-                                         @RequestPart ("field") FieldDTO fieldDTO
+                                         @RequestPart ("field") String fieldId
     ){
         String base64CropImage = "";
 
@@ -43,7 +39,7 @@ public class CropController {
             buildCropDTO.setCropImage(base64CropImage);
             buildCropDTO.setCategory(category);
             buildCropDTO.setSeason(season);
-            buildCropDTO.setField(fieldDTO);
+            buildCropDTO.setFieldId(fieldId);
 
             cropService.saveCrop(buildCropDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
