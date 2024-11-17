@@ -2,6 +2,7 @@ package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.CropService;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
+import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/crops")
@@ -50,5 +53,9 @@ public class CropController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CropDTO> getAllCrops(){
+        return cropService.getAllCrops();
     }
 }

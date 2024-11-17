@@ -13,6 +13,7 @@ import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,10 @@ public class CropServiceImpl implements CropService {
             throw new FieldNotFoundException("this Field is not found");
         }
 
+    }
+
+    @Override
+    public List<CropDTO> getAllCrops() {
+        return cropMapping.asCropDTOList(cropDao.findAll());
     }
 }
