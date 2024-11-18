@@ -2,8 +2,10 @@ package lk.ijse.green_shadow_crop_manage_system.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.green_shadow_crop_manage_system.Service.CropService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dao.CropDao;
 import lk.ijse.green_shadow_crop_manage_system.dao.FieldDao;
+import lk.ijse.green_shadow_crop_manage_system.dto.CropStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.CropEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
@@ -62,5 +64,18 @@ public class CropServiceImpl implements CropService {
             }
         }
         return allCropDTOList;
+    }
+
+    @Override
+    public CropStatus getSelectedCrop(String cropCode) {
+        if(cropDao.existsById(cropCode)){
+            var selectedCrop = cropDao.getReferenceById(cropCode);
+            String fieldCode=selectedCrop.getField().getFieldCode();
+            CropDTO selectedCropDTO=cropMapping.toCropDTO(selectedCrop);
+            selectedCropDTO.setFieldId(fieldCode);
+            return selectedCropDTO;
+        }else {
+            return new SelectedErrorStatus(2,"Search Crop not found!");
+        }
     }
 }

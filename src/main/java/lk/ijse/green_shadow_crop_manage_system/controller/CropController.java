@@ -1,10 +1,13 @@
 package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.CropService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
+import lk.ijse.green_shadow_crop_manage_system.dto.CropStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
+import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/crops")
@@ -57,5 +61,13 @@ public class CropController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CropDTO> getAllCrops(){
         return cropService.getAllCrops();
+    }
+
+    @GetMapping(value = "/{cropCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public CropStatus getSelectedCrop(@PathVariable("cropCode") String cropCode){
+        if (!RegexProcess.cropCodeMatcher(cropCode)) {
+             return new SelectedErrorStatus(1,"Crop Code is not valid!");
+        }
+        return cropService.getSelectedCrop(cropCode);
     }
 }
