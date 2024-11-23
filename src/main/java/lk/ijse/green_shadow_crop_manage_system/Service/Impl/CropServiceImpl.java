@@ -95,4 +95,14 @@ public class CropServiceImpl implements CropService {
             throw new CropNotFoundException("this Crop is not found!");
         }
     }
+
+    @Override
+    public void deleteCrop(String cropCode) {
+        Optional<CropEntity> findCrop=cropDao.findById(cropCode);
+        if (!findCrop.isPresent()) {
+            throw new CropNotFoundException("this Crop is not found!");
+        }else {
+            cropDao.deleteById(cropCode);
+        }
+    }
 }
