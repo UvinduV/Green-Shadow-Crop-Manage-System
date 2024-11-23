@@ -9,6 +9,7 @@ import lk.ijse.green_shadow_crop_manage_system.dto.CropStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.CropEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
+import lk.ijse.green_shadow_crop_manage_system.exception.CropNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.exception.FieldNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
@@ -76,6 +77,22 @@ public class CropServiceImpl implements CropService {
             return selectedCropDTO;
         }else {
             return new SelectedErrorStatus(2,"Search Crop not found!");
+        }
+    }
+
+    @Override
+    public void updateCrop(String cropCode, CropDTO updateCropDTO) {
+        Optional<CropEntity> findCrop=cropDao.findById(cropCode);
+        Optional<FieldEntity> findField=fieldDao.findById(updateCropDTO.getFieldId());
+        if (findCrop.isPresent()) {
+            findCrop.get().setCommonName(updateCropDTO.getCommonName());
+            findCrop.get().setScientificName(updateCropDTO.getScientificName());
+            findCrop.get().setCropImage(updateCropDTO.getCropImage());
+            findCrop.get().setCategory(updateCropDTO.getCategory());
+            findCrop.get().setSeason(updateCropDTO.getSeason());
+            findCrop.get().setField(findField.get());
+        }else {
+            throw new CropNotFoundException("this Crop is not found!");
         }
     }
 }
