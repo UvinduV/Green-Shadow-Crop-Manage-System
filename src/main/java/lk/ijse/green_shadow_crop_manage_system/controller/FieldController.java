@@ -1,12 +1,13 @@
 package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.FieldService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
+import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.AddFieldDTO;
-import lk.ijse.green_shadow_crop_manage_system.dto.Impl.CropDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
-import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
+import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -79,6 +80,13 @@ public class FieldController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FieldDTO> getAllField(){
         return fieldService.getAllField();
+    }
+    @GetMapping(value = "/{fieldCode}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public FieldStatus searchField(@PathVariable("fieldCode") String fieldCode){
+        if (!RegexProcess.fieldCodeMatcher(fieldCode)) {
+            return new SelectedErrorStatus(1,"field Code is not valid!");
+        }
+        return fieldService.searchField(fieldCode);
     }
 
 }

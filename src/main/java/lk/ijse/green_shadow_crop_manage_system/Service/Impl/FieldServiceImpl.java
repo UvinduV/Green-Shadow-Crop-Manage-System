@@ -2,7 +2,9 @@ package lk.ijse.green_shadow_crop_manage_system.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.green_shadow_crop_manage_system.Service.FieldService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dao.FieldDao;
+import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
@@ -44,5 +46,16 @@ public class FieldServiceImpl implements FieldService {
     public List<FieldDTO> getAllField() {
         return fieldMapping.asFieldDTOList(fieldDao.findAll());
     }
+
+    @Override
+    public FieldStatus searchField(String fieldCode) {
+        if (fieldDao.existsById(fieldCode)) {
+            FieldEntity selectedField=fieldDao.getReferenceById(fieldCode);
+            return fieldMapping.toFieldDTO(selectedField);
+
+        }else {
+            return new SelectedErrorStatus(2,"This Field is not found");
+        }
+    }//
 
 }
