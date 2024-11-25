@@ -13,6 +13,9 @@ public class AppUtil {
     public static String generateCropId(){
         return "CROP-"+ UUID.randomUUID();
     }
+    public static String generateVehicleId(){
+        return "VEHICLE-"+ UUID.randomUUID();
+    }
     public static String fieldImageToBase64(byte[] fieldImage){
         return Base64.getEncoder().encodeToString(fieldImage);
     }
