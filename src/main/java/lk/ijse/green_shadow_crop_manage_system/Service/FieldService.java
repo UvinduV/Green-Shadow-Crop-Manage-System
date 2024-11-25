@@ -15,4 +15,6 @@ public interface FieldService {
     FieldStatus searchField(String fieldCode);
 
     void updateField(String fieldCode, FieldDTO fieldDTO);
+
+    void deleteField(String fieldCode);
 }

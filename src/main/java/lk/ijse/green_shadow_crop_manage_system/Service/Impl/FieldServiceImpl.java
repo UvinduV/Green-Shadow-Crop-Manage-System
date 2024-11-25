@@ -54,7 +54,6 @@ public class FieldServiceImpl implements FieldService {
         if (fieldDao.existsById(fieldCode)) {
             FieldEntity selectedField=fieldDao.getReferenceById(fieldCode);
             return fieldMapping.toFieldDTO(selectedField);
-
         }else {
             return new SelectedErrorStatus(2,"This Field is not found");
         }
@@ -75,5 +74,16 @@ public class FieldServiceImpl implements FieldService {
             throw new FieldNotFoundException("This Field-" + fieldCode + " is not found");
         }
     }
+
+    @Override
+    public void deleteField(String fieldCode) {
+        Optional<FieldEntity> findField=fieldDao.findById(fieldCode);
+        if(findField.isPresent()){
+            fieldDao.deleteById(fieldCode);
+        }else {
+            throw new FieldNotFoundException("This Field-" + fieldCode + " is not found");
+        }
+    }
+
 
 }
