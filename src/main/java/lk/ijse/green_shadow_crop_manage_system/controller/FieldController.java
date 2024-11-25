@@ -6,6 +6,7 @@ import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.AddFieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.FieldNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,24 @@ public class FieldController {
         }
         return fieldService.searchField(fieldCode);
     }
+    @PutMapping(value = "/{fieldCode}",consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateField(@PathVariable("fieldCode") String fieldCode,
+                                            @RequestBody FieldDTO fieldDTO){
+        try {
+            if (!RegexProcess.fieldCodeMatcher(fieldCode)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            fieldService.updateField(fieldCode,fieldDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (FieldNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

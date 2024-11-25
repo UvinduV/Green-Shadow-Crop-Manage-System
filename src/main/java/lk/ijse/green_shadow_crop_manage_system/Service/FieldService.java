@@ -13,4 +13,6 @@ public interface FieldService {
     List<FieldDTO> getAllField();
 
     FieldStatus searchField(String fieldCode);
+
+    void updateField(String fieldCode, FieldDTO fieldDTO);
 }

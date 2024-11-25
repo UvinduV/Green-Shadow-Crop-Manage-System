@@ -6,7 +6,9 @@ import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorSta
 import lk.ijse.green_shadow_crop_manage_system.dao.FieldDao;
 import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.CropEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.exception.FieldNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
@@ -56,6 +58,22 @@ public class FieldServiceImpl implements FieldService {
         }else {
             return new SelectedErrorStatus(2,"This Field is not found");
         }
-    }//
+    }
+
+    @Override
+    public void updateField(String fieldCode, FieldDTO fieldDTO) {
+        Optional<FieldEntity> findField = fieldDao.findById(fieldCode);
+        if(findField.isPresent()){
+            findField.get().setFieldName(fieldDTO.getFieldName());
+            //findField.get().setLocation(fieldDTO.getLocation());
+            findField.get().setExtentSize(fieldDTO.getExtentSize());
+            List<CropEntity> cropEntityList = fieldMapping.toCropEntityList(fieldDTO.getCrops());
+            findField.get().setCrops(cropEntityList);
+            List<StaffEntity> staffEntityList = fieldMapping.toStaffEntityList(fieldDTO.getStaff());
+            findField.get().setStaff(staffEntityList);
+        }else{
+            throw new FieldNotFoundException("This Field-" + fieldCode + " is not found");
+        }
+    }
 
 }

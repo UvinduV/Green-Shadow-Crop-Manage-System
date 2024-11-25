@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Component
@@ -27,6 +28,10 @@ public class Mapping {
     public List<StaffDTO> asStaffDTOList(List<StaffEntity> staffEntities) {
         return modelMapper.map(staffEntities, new TypeToken<List<StaffDTO>>() {}.getType());
     }
+    public List<StaffEntity> toStaffEntityList(List<StaffDTO> staffDTOS) {
+        return modelMapper.map(staffDTOS, new TypeToken<List<StaffEntity>>() {}.getType());
+    }
+
     //Field
     public FieldEntity toFieldEntity(FieldDTO fieldDTO){
         return modelMapper.map(fieldDTO, FieldEntity.class);
@@ -36,6 +41,9 @@ public class Mapping {
     }
     public List<FieldDTO> asFieldDTOList(List<FieldEntity> fieldEntities) {
         return modelMapper.map(fieldEntities, new TypeToken<List<FieldDTO>>() {}.getType());
+    }
+    public List<FieldEntity> toFieldEntityList(List<FieldDTO> fieldDTOS) {
+        return modelMapper.map(fieldDTOS, new TypeToken<List<FieldEntity>>() {}.getType());
     }
 
     //Crop
@@ -47,6 +55,9 @@ public class Mapping {
     }
     public List<CropDTO> asCropDTOList(List<CropEntity> cropEntities) {
         return modelMapper.map(cropEntities, new TypeToken<List<CropDTO>>() {}.getType());
+    }
+    public List<CropEntity> toCropEntityList(List<CropDTO> cropDTOS) {
+        return modelMapper.map(cropDTOS, new TypeToken<List<CropEntity>>() {}.getType());
     }
 
 }
