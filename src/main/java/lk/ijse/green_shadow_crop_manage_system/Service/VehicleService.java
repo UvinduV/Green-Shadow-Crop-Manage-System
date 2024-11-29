@@ -11,4 +11,6 @@ public interface VehicleService {
     List<VehicleDTO> getAllVehicles();
 
     VehicleStatus searchVehicleByNumber(String licenceNumber);
+
+    void updateVehicle(String licenceNumber, VehicleDTO vehicleDTO);
 }

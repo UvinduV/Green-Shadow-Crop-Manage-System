@@ -5,6 +5,7 @@ import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorSta
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.VehicleDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.VehicleStatus;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.VehicleNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,16 +34,37 @@ public class VehicleController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VehicleDTO> getAllVehicles(){
         return vehicleService.getAllVehicles();
     }
+
     @GetMapping(value = "/{licenceNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
     public VehicleStatus searchVehicleById(@PathVariable("licenceNumber") String licenceNumber) {
         if (!RegexProcess.licenceNumberMatcher(licenceNumber)) {
             return new SelectedErrorStatus(1,"Licence number is invalid");
         }
         return vehicleService.searchVehicleByNumber(licenceNumber);
+    }
+
+    @PutMapping(value = "/{licenceNumber}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateVehicle(@PathVariable("licenceNumber") String licenceNumber,
+                                              @RequestBody VehicleDTO vehicleDTO) {
+        try {
+            if (!RegexProcess.licenceNumberMatcher(licenceNumber)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            vehicleService.updateVehicle(licenceNumber,vehicleDTO);
+
+        }catch (VehicleNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

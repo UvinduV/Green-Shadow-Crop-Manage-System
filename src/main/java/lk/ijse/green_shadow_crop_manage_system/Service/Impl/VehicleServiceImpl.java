@@ -6,6 +6,7 @@ import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorSta
 import lk.ijse.green_shadow_crop_manage_system.dao.VehicleDao;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.VehicleDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.VehicleStatus;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.VehicleEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.exception.VehicleNotFoundException;
@@ -46,5 +47,20 @@ public class VehicleServiceImpl implements VehicleService {
             return new SelectedErrorStatus(2, "vehicle is not found");
         }
         return vehicleMapping.toVehicleDTO(findVehicle.get());
+    }
+
+    @Override
+    public void updateVehicle(String licenceNumber, VehicleDTO vehicleDTO) {
+        Optional<VehicleEntity> findVehicle=vehicleDao.findByLicensePlateNumber(licenceNumber);
+        if(findVehicle.isPresent()){
+            findVehicle.get().setFuelType(vehicleDTO.getFuelType());
+            findVehicle.get().setVehicleCategory(vehicleDTO.getVehicleCategory());
+            findVehicle.get().setStatus(vehicleDTO.getStatus());
+            findVehicle.get().setRemarks(vehicleDTO.getRemarks());
+            StaffEntity getStaff =vehicleMapping.toStaffEntity(vehicleDTO.getAssignedStaff());
+            findVehicle.get().setAssignedStaff(getStaff);
+        }else{
+            throw new VehicleNotFoundException("Vehicle Not Found");
+        }
     }
 }
