@@ -2,7 +2,9 @@ package lk.ijse.green_shadow_crop_manage_system.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.green_shadow_crop_manage_system.Service.EquipmentService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dao.EquipmentDao;
+import lk.ijse.green_shadow_crop_manage_system.dto.EquipmentStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.EquipmentDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.EquipmentEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
@@ -25,12 +27,21 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipmentDTO.setEquipmentId(AppUtil.generateEquipmentId());
         EquipmentEntity SavedEquipment =equipmentDao.save(equipmentMapping.toEquipmentEntity(equipmentDTO));
         if (SavedEquipment == null) {
-            throw new DataPersistException("equipment not saved");
+            throw new DataPersistException("equipment is not saved");
         }
     }
 
     @Override
     public List<EquipmentDTO> getAllEquipments() {
         return equipmentMapping.asEquipmentDTOList(equipmentDao.findAll());
+    }
+
+    @Override
+    public EquipmentStatus searchEquipment(String equipmentId) {
+        if (equipmentDao.existsById(equipmentId)) {
+            return equipmentMapping.toEquipmentDTO(equipmentDao.getReferenceById(equipmentId));
+        }else {
+            return new SelectedErrorStatus(2,"equipment is not found");
+        }
     }
 }
