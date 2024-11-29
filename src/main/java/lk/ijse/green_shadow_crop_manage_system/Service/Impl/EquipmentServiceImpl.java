@@ -7,13 +7,18 @@ import lk.ijse.green_shadow_crop_manage_system.dao.EquipmentDao;
 import lk.ijse.green_shadow_crop_manage_system.dto.EquipmentStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.EquipmentDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.EquipmentEntity;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.EquipmentNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,4 +49,21 @@ public class EquipmentServiceImpl implements EquipmentService {
             return new SelectedErrorStatus(2,"equipment is not found");
         }
     }
+
+    @Override
+    public void updateEquipment(String equipmentId, EquipmentDTO equipmentDTO) {
+        Optional<EquipmentEntity> findEquipment =equipmentDao.findById(equipmentId);
+        if (findEquipment.isPresent()) {
+            findEquipment.get().setName(equipmentDTO.getName());
+            findEquipment.get().setType(equipmentDTO.getType());
+            findEquipment.get().setStatus(equipmentDTO.getStatus());
+            StaffEntity assignStaff=equipmentMapping.toStaffEntity(equipmentDTO.getAssignedStaff());
+            findEquipment.get().setAssignedStaff(assignStaff);
+            FieldEntity assignField=equipmentMapping.toFieldEntity(equipmentDTO.getAssignedField());
+            findEquipment.get().setAssignedField(assignField);
+        }else {
+            throw new EquipmentNotFoundException("Equipment is not found");
+        }
+    }
+
 }
