@@ -11,6 +11,8 @@ import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class EquipmentServiceImpl implements EquipmentService {
@@ -25,5 +27,10 @@ public class EquipmentServiceImpl implements EquipmentService {
         if (SavedEquipment == null) {
             throw new DataPersistException("equipment not saved");
         }
+    }
+
+    @Override
+    public List<EquipmentDTO> getAllEquipments() {
+        return equipmentMapping.asEquipmentDTOList(equipmentDao.findAll());
     }
 }
