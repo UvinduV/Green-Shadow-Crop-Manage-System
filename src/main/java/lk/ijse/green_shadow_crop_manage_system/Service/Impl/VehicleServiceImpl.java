@@ -63,4 +63,15 @@ public class VehicleServiceImpl implements VehicleService {
             throw new VehicleNotFoundException("Vehicle Not Found");
         }
     }
+
+    @Override
+    public void deleteVehicle(String licenceNumber) {
+        Optional<VehicleEntity> findVehicle=vehicleDao.findByLicensePlateNumber(licenceNumber);
+        if(!findVehicle.isPresent()){
+            throw new VehicleNotFoundException("Vehicle Not Found");
+        }else {
+            vehicleDao.delete(findVehicle.get());
+        }
+
+    }
 }

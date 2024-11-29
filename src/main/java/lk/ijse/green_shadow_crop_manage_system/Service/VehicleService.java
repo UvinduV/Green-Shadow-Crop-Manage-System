@@ -13,4 +13,6 @@ public interface VehicleService {
     VehicleStatus searchVehicleByNumber(String licenceNumber);
 
     void updateVehicle(String licenceNumber, VehicleDTO vehicleDTO);
+
+    void deleteVehicle(String licenceNumber);
 }
