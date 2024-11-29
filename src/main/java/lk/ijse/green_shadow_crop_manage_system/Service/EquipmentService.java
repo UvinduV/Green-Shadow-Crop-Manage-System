@@ -14,4 +14,6 @@ public interface EquipmentService {
     EquipmentStatus searchEquipment(String equipmentId);
 
     void updateEquipment(String equipmentId, EquipmentDTO equipmentDTO);
+
+    void deleteEquipment(String equipmentId);
 }
