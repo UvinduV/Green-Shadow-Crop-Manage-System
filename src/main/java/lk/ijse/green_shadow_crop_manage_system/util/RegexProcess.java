@@ -13,4 +13,9 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForFieldCode);
         return regexPattern.matcher(fieldCode).matches();
     }
+    public static boolean licenceNumberMatcher(String licenceNumber) {
+        String regexForLicenceNumber = "^[A-Z]{2,3}-\\d{4}$";
+        Pattern regexPattern = Pattern.compile(regexForLicenceNumber);
+        return regexPattern.matcher(licenceNumber).matches();
+    }
 }

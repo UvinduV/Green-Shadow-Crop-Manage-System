@@ -1,8 +1,11 @@
 package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.VehicleService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.VehicleDTO;
+import lk.ijse.green_shadow_crop_manage_system.dto.VehicleStatus;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +36,13 @@ public class VehicleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VehicleDTO> getAllVehicles(){
         return vehicleService.getAllVehicles();
+    }
+    @GetMapping(value = "/{licenceNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public VehicleStatus searchVehicleById(@PathVariable("licenceNumber") String licenceNumber) {
+        if (!RegexProcess.licenceNumberMatcher(licenceNumber)) {
+            return new SelectedErrorStatus(1,"Licence number is invalid");
+        }
+        return vehicleService.searchVehicleByNumber(licenceNumber);
     }
 
 }
