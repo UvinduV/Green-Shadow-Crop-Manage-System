@@ -92,11 +92,19 @@ public class FieldController {
     @PutMapping(value = "/{fieldCode}",consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateField(@PathVariable("fieldCode") String fieldCode,
-                                            @RequestBody FieldDTO fieldDTO){
+                                            @RequestBody AddFieldDTO addFieldDTO){
         try {
-            if (!RegexProcess.fieldCodeMatcher(fieldCode)) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            Point location = new Point(addFieldDTO.getX().intValue(),addFieldDTO.getY().intValue());
+
+            FieldDTO fieldDTO=new FieldDTO();
+            fieldDTO.setFieldCode(fieldCode);
+            fieldDTO.setFieldName(addFieldDTO.getFieldName());
+            fieldDTO.setLocation(location);
+            fieldDTO.setExtentSize(addFieldDTO.getExtentSize());
+
+            fieldDTO.setCrops(addFieldDTO.getCrops());
+            fieldDTO.setStaff(addFieldDTO.getStaff());
+
             fieldService.updateField(fieldCode,fieldDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (FieldNotFoundException e) {
