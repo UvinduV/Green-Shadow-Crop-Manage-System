@@ -64,7 +64,7 @@ public class FieldServiceImpl implements FieldService {
         Optional<FieldEntity> findField = fieldDao.findById(fieldCode);
         if(findField.isPresent()){
             findField.get().setFieldName(fieldDTO.getFieldName());
-            //findField.get().setLocation(fieldDTO.getLocation());
+            findField.get().setLocation(fieldDTO.getLocation());
             findField.get().setExtentSize(fieldDTO.getExtentSize());
             List<CropEntity> cropEntityList = fieldMapping.toCropEntityList(fieldDTO.getCrops());
             findField.get().setCrops(cropEntityList);
