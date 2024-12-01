@@ -5,6 +5,7 @@ import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorSta
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.StaffStatus;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.StaffNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,24 @@ public class StaffController {
             return new SelectedErrorStatus(1,"Staff ID does not match");
         }
         return staffService.searchStaff(staffId);
+    }
+    @PutMapping(value = "/{staffId}")
+    public ResponseEntity<Void> updateStaff(@PathVariable ("staffId") String staffId,
+                                            @RequestBody StaffDTO staffDTO){
+
+        try {
+            if(!RegexProcess.staffIdMatcher(staffId)){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            staffService.updateStaff(staffId, staffDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (StaffNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
