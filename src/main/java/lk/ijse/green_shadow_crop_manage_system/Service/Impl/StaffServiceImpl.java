@@ -10,6 +10,7 @@ import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.VehicleEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.StaffNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,19 @@ public class StaffServiceImpl implements StaffService {
             List<VehicleEntity> vehicleEntityList=staffMapping.toVehicleEntityList(staffDTO.getVehicles());
             findStaff.get().setVehicles(vehicleEntityList);
 
+        }else {
+            throw new StaffNotFoundException("Staff Not Found");
+        }
+
+    }
+
+    @Override
+    public void deleteStaff(String staffId) {
+        Optional<StaffEntity> findStaff = staffDao.findById(staffId);
+        if(findStaff.isPresent()) {
+            throw new StaffNotFoundException("Staff Not Found");
+        }else {
+            staffDao.deleteById(staffId);
         }
 
     }

@@ -62,6 +62,22 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{staffId}")
+    public ResponseEntity<Void> deleteStaff(@PathVariable ("staffId") String staffId){
+        try {
+            if(!RegexProcess.staffIdMatcher(staffId)){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            staffService.deleteStaff(staffId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (StaffNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 

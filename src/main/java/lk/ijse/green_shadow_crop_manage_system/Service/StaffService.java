@@ -13,4 +13,6 @@ public interface StaffService {
     StaffStatus searchStaff(String staffId);
 
     void updateStaff(String staffId, StaffDTO staffDTO);
+
+    void deleteStaff(String staffId);
 }
