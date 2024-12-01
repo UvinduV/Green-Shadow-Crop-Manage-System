@@ -1,8 +1,11 @@
 package lk.ijse.green_shadow_crop_manage_system.controller;
 
 import lk.ijse.green_shadow_crop_manage_system.Service.StaffService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
+import lk.ijse.green_shadow_crop_manage_system.dto.StaffStatus;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +36,14 @@ public class StaffController {
     public List<StaffDTO> getAllStaff(){
         return staffService.getAllStaff();
     }
+    @GetMapping(value="/{staffId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public StaffStatus searchStaff(@PathVariable ("staffId") String staffId){
+        if(!RegexProcess.staffIdMatcher(staffId)){
+            return new SelectedErrorStatus(1,"Staff ID does not match");
+        }
+        return staffService.searchStaff(staffId);
+    }
+
 
 
 

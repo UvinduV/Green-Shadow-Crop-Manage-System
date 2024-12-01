@@ -13,6 +13,11 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForFieldCode);
         return regexPattern.matcher(fieldCode).matches();
     }
+    public static boolean staffIdMatcher(String staffId) {
+        String regexForStaffId = "^STAFF-[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForStaffId);
+        return regexPattern.matcher(staffId).matches();
+    }
     public static boolean licenceNumberMatcher(String licenceNumber) {
         String regexForLicenceNumber = "^[A-Z]{2,3}-\\d{4}$";
         Pattern regexPattern = Pattern.compile(regexForLicenceNumber);

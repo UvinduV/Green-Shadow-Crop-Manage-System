@@ -2,8 +2,10 @@ package lk.ijse.green_shadow_crop_manage_system.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.green_shadow_crop_manage_system.Service.StaffService;
+import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dao.StaffDao;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
+import lk.ijse.green_shadow_crop_manage_system.dto.StaffStatus;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
@@ -34,5 +36,13 @@ public class StaffServiceImpl implements StaffService {
     public List<StaffDTO> getAllStaff() {
         List<StaffEntity>allStaff=staffDao.findAll();
         return staffMapping.asStaffDTOList(allStaff);
+    }
+
+    @Override
+    public StaffStatus searchStaff(String staffId) {
+        if (staffDao.existsById(staffId)) {
+            return staffMapping.toStaffDTO(staffDao.getReferenceById(staffId));
+        }
+        return new SelectedErrorStatus(2,"Staff Not Found");
     }
 }
