@@ -99,4 +99,12 @@ public class StaffServiceImpl implements StaffService {
         }
 
     }
+
+    @Override
+    public List<String> getAllStaffNames() {
+        List<StaffEntity> staffEntities = staffDao.findAll();
+        return staffEntities.stream()
+                .map(StaffEntity::getFirstName)
+                .collect(Collectors.toList());
+    }
 }

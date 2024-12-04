@@ -78,6 +78,11 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(value = "getAllStaffNames",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> getAllStaffName(){
+        List<String> staffNames = staffService.getAllStaffNames();
+        return ResponseEntity.ok(staffNames);
+    }
 
 
 
