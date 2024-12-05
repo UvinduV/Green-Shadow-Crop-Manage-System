@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/crops")
+@CrossOrigin
 public class CropController {
     @Autowired
     private CropService cropService;
@@ -50,6 +51,7 @@ public class CropController {
             buildCropDTO.setSeason(season);
             buildCropDTO.setFieldId(fieldId);
 
+            System.out.print(buildCropDTO);
             cropService.saveCrop(buildCropDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {

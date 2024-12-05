@@ -2,8 +2,10 @@ package lk.ijse.green_shadow_crop_manage_system.Service;
 
 import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FieldService {
     void saveField(FieldDTO buildFieldDTO);
@@ -19,4 +21,6 @@ public interface FieldService {
     void deleteField(String fieldCode);
 
     List<String> getAllFieldNames();
+
+    Optional<FieldEntity> getIdByName(String fieldName);
 }

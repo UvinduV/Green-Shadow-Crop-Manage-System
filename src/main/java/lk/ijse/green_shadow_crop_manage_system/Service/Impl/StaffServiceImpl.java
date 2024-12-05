@@ -93,9 +93,9 @@ public class StaffServiceImpl implements StaffService {
     public void deleteStaff(String staffId) {
         Optional<StaffEntity> findStaff = staffDao.findById(staffId);
         if(findStaff.isPresent()) {
-            throw new StaffNotFoundException("Staff Not Found");
-        }else {
             staffDao.deleteById(staffId);
+        }else {
+            throw new StaffNotFoundException("Staff Not Found");
         }
 
     }

@@ -61,7 +61,7 @@ public class CropServiceImpl implements CropService {
             CropDTO dto = allCropDTOList.get(i);
 
             if (entity.getField() != null) {
-                dto.setFieldId(entity.getField().getFieldCode());
+                dto.setFieldId(entity.getField().getFieldName());
             }
         }
         return allCropDTOList;

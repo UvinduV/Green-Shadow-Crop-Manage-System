@@ -5,6 +5,7 @@ import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorSta
 import lk.ijse.green_shadow_crop_manage_system.dto.FieldStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.AddFieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
 import lk.ijse.green_shadow_crop_manage_system.exception.FieldNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/fields")
@@ -137,6 +139,19 @@ public class FieldController {
     public ResponseEntity<List<String>> getAllFieldName(){
         List<String> fieldNames = fieldService.getAllFieldNames();
         return ResponseEntity.ok(fieldNames);
+    }
+    @GetMapping( "/getFieldCode/{fieldName}")
+    public ResponseEntity<String> getFieldCode(@PathVariable("fieldName") String fieldName){
+        try {
+            Optional<FieldEntity> fieldEntity = fieldService.getIdByName(fieldName);
+            return ResponseEntity.ok(fieldEntity.get().getFieldCode());
+        }catch (FieldNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
