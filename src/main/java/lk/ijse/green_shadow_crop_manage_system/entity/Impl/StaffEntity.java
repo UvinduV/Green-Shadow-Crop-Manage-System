@@ -1,5 +1,6 @@
 package lk.ijse.green_shadow_crop_manage_system.entity.Impl;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import lk.ijse.green_shadow_crop_manage_system.entity.Gender;
@@ -39,6 +40,7 @@ public class StaffEntity implements SuperEntity {
     @ManyToMany
     @JoinTable(name = "FieldStaffDetails",joinColumns = @JoinColumn(name = "staffId"),
             inverseJoinColumns = @JoinColumn(name = "fieldCode"))
+    @JsonBackReference
     private List<FieldEntity> fields;
     @OneToMany(mappedBy = "assignedStaff", cascade = CascadeType.ALL)
     private List<VehicleEntity> vehicles;

@@ -1,10 +1,9 @@
 package lk.ijse.green_shadow_crop_manage_system.entity.Impl;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lk.ijse.green_shadow_crop_manage_system.entity.SuperEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.awt.*;
 import java.util.List;
@@ -25,7 +24,9 @@ public class FieldEntity implements SuperEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String fieldImage2;
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<CropEntity> crops;
     @ManyToMany(mappedBy = "fields")
+    @JsonBackReference
     private List<StaffEntity> staff;
 }

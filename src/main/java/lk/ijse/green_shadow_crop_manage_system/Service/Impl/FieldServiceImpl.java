@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -85,7 +86,13 @@ public class FieldServiceImpl implements FieldService {
         }
     }
 
-
+    @Override
+    public List<String> getAllFieldNames() {
+        List<FieldEntity> fieldEntities = fieldDao.findAll();
+        return fieldEntities.stream()
+                .map(FieldEntity::getFieldName)
+                .collect(Collectors.toList());
+    }
 
 
 }
