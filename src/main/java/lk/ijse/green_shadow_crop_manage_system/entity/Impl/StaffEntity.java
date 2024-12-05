@@ -42,6 +42,7 @@ public class StaffEntity implements SuperEntity {
             inverseJoinColumns = @JoinColumn(name = "fieldCode"))
     @JsonBackReference
     private List<FieldEntity> fields;
+    @JsonBackReference
     @OneToMany(mappedBy = "assignedStaff", cascade = CascadeType.ALL)
     private List<VehicleEntity> vehicles;
 }

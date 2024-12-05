@@ -107,4 +107,9 @@ public class StaffServiceImpl implements StaffService {
                 .map(StaffEntity::getFirstName)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<StaffEntity> getIdByName(String firstName) {
+        return staffDao.findByStaffName(firstName);
+    }
 }

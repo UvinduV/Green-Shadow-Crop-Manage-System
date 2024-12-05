@@ -4,7 +4,10 @@ import lk.ijse.green_shadow_crop_manage_system.Service.StaffService;
 import lk.ijse.green_shadow_crop_manage_system.customStatusCode.SelectedErrorStatus;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.StaffStatus;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.FieldEntity;
+import lk.ijse.green_shadow_crop_manage_system.entity.Impl.StaffEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.FieldNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.exception.StaffNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/staff")
@@ -85,6 +89,21 @@ public class StaffController {
         return ResponseEntity.ok(staffNames);
     }
 
+    @GetMapping( "/getStaffId/{firstName}")
+    public ResponseEntity<String> getStaffId(@PathVariable("firstName") String firstName){
+        try {
+            System.out.println(firstName);
+            Optional<StaffEntity> staffEntity = staffService.getIdByName(firstName);
+            System.out.println(staffEntity);
+            return ResponseEntity.ok(staffEntity.get().getStaffId());
+        }catch (StaffNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
