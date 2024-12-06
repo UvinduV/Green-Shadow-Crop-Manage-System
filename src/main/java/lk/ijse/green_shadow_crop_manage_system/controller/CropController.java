@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/crops")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:63342")
 public class CropController {
     @Autowired
     private CropService cropService;

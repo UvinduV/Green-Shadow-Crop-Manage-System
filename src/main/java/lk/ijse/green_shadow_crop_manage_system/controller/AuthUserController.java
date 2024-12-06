@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("api/v1/auth/")
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthUserController {
     private final AuthService authService;
     private final UserService userService;

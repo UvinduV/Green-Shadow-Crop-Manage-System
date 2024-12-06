@@ -50,6 +50,8 @@ public class JWTConfigFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 emptyContext.setAuthentication(authToken);
                 SecurityContextHolder.setContext(emptyContext);
+            }else{
+                System.out.println("Token validation failed");
 
             }
 
