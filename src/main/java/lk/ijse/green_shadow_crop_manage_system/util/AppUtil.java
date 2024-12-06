@@ -22,6 +22,9 @@ public class AppUtil {
     public static String generateLogId(){
         return "LOG-"+ UUID.randomUUID();
     }
+    public static String generateUserId(){
+        return "USER-"+ UUID.randomUUID();
+    }
     public static String fieldImageToBase64(byte[] fieldImage){
         return Base64.getEncoder().encodeToString(fieldImage);
     }
