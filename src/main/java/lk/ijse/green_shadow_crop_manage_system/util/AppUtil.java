@@ -19,10 +19,16 @@ public class AppUtil {
     public static String generateEquipmentId(){
         return "EQUIPMENT-"+ UUID.randomUUID();
     }
+    public static String generateLogId(){
+        return "LOG-"+ UUID.randomUUID();
+    }
     public static String fieldImageToBase64(byte[] fieldImage){
         return Base64.getEncoder().encodeToString(fieldImage);
     }
     public static String cropImageToBase64(byte[] fieldImage){
         return Base64.getEncoder().encodeToString(fieldImage);
+    }
+    public static String observedImageToBase64(byte[] observedImage){
+        return Base64.getEncoder().encodeToString(observedImage);
     }
 }
