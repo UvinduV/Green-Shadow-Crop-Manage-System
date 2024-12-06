@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -104,5 +105,13 @@ public class CropServiceImpl implements CropService {
         }else {
             cropDao.deleteById(cropCode);
         }
+    }
+
+    @Override
+    public List<String> getAllCropNames() {
+        List<CropEntity> cropEntities = cropDao.findAll();
+        return cropEntities.stream()
+                .map(CropEntity::getCommonName)
+                .collect(Collectors.toList());
     }
 }

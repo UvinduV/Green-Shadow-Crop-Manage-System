@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/logs")
+@CrossOrigin
 public class LogController {
     @Autowired
     private LogService logService;
