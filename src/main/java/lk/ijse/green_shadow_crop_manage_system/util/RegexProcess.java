@@ -28,4 +28,9 @@ public class RegexProcess {
         Pattern regexPattern = Pattern.compile(regexForEquipmentId);
         return regexPattern.matcher(equipmentId).matches();
     }
+    public static boolean logCodeMatcher(String logCode) {
+        String regexForLogCode = "^LOG-[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$";
+        Pattern regexPattern = Pattern.compile(regexForLogCode);
+        return regexPattern.matcher(logCode).matches();
+    }
 }

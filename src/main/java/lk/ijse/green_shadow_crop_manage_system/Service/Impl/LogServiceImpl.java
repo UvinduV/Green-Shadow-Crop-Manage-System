@@ -7,12 +7,14 @@ import lk.ijse.green_shadow_crop_manage_system.dto.Impl.MonitoringLogDTO;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.MonitoringLogEntity;
 import lk.ijse.green_shadow_crop_manage_system.entity.Impl.VehicleEntity;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.LogNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
 import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,5 +37,15 @@ public class LogServiceImpl implements LogService {
     @Override
     public List<MonitoringLogDTO> getAllLogs() {
         return logMapping.asMonitoringLogDTOList(logDao.findAll());
+    }
+
+    @Override
+    public void deleteLog(String logCode) {
+       Optional<MonitoringLogEntity> findLog = logDao.findById(logCode);
+       if(findLog.isPresent()){
+           logDao.deleteById(logCode);
+       }else {
+           throw new LogNotFoundException("Log Not Found");
+       }
     }
 }

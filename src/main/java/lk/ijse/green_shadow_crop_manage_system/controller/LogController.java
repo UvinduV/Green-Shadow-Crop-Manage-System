@@ -6,7 +6,9 @@ import lk.ijse.green_shadow_crop_manage_system.dto.Impl.FieldDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.MonitoringLogDTO;
 import lk.ijse.green_shadow_crop_manage_system.dto.Impl.StaffDTO;
 import lk.ijse.green_shadow_crop_manage_system.exception.DataPersistException;
+import lk.ijse.green_shadow_crop_manage_system.exception.LogNotFoundException;
 import lk.ijse.green_shadow_crop_manage_system.util.AppUtil;
+import lk.ijse.green_shadow_crop_manage_system.util.RegexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/logs")
@@ -63,6 +66,23 @@ public class LogController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MonitoringLogDTO> getAllLogs(){
         return logService.getAllLogs();
+    }
+
+    @DeleteMapping(value = "/{logCode}")
+    public ResponseEntity<Void> deleteLog(@PathVariable ("logCode") String logCode){
+        try {
+            if(!RegexProcess.logCodeMatcher(logCode)){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            logService.deleteLog(logCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (LogNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
