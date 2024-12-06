@@ -12,6 +12,8 @@ import lk.ijse.green_shadow_crop_manage_system.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class LogServiceImpl implements LogService {
@@ -28,5 +30,10 @@ public class LogServiceImpl implements LogService {
             throw new DataPersistException("log save failed");
         }
 
+    }
+
+    @Override
+    public List<MonitoringLogDTO> getAllLogs() {
+        return logMapping.asMonitoringLogDTOList(logDao.findAll());
     }
 }
